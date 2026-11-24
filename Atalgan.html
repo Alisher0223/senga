@@ -1,0 +1,478 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Kechir, Iroda</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,300;1,9..144,500&family=Nunito:wght@400;600&display=swap">
+<style>
+  /* Layout: one tall, left-aligned letter column over a slow drift of petals; the question sits at the end and answers back. */
+  :root {
+    --wine-deep: #14080f;
+    --wine: #2b1021;
+    --rose: #eaa3ab;
+    --gold: #ecc99a;
+    --paper: #f8ecec;
+    --muted: #c4a9b0;
+    --font-display: "Fraunces", "Georgia", "Times New Roman", serif;
+    --font-body: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+    color-scheme: dark;
+  }
+  html { background: var(--wine-deep); }
+  body {
+    margin: 0;
+    min-height: 100%;
+    background: radial-gradient(120% 80% at 80% 0%, #4a1c35 0%, var(--wine) 38%, var(--wine-deep) 100%) fixed;
+    background-color: var(--wine-deep);
+    color: var(--paper);
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 3.5rem 5rem;
+    overflow-x: hidden;
+  }
+  #fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+  main { position: relative; z-index: 1; max-width: 34rem; margin: 0 auto; }
+
+  .eyebrow {
+    margin: 0 0 1.25rem;
+    font-size: 0.8125rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  h1 {
+    margin: 0 0 2.5rem;
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(3.25rem, 15vw, 5.75rem);
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  h1 span { display: block; color: var(--rose); font-weight: 500; }
+
+  .letter { display: flex; flex-direction: column; gap: 1.35rem; }
+  .letter p { margin: 0; max-width: 65ch; color: var(--paper); }
+  .letter p:first-child {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    line-height: 1.4;
+    color: var(--gold);
+  }
+  .letter .sign {
+    margin-top: 0.5rem;
+    font-family: var(--font-display);
+    font-style: italic;
+    color: var(--muted);
+  }
+
+  .ask {
+    margin-top: 3.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid rgba(236, 201, 154, 0.28);
+  }
+  .ask h2 {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(1.9rem, 8vw, 2.6rem);
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+  .ask .hint { margin: 0; color: var(--muted); font-size: 0.95rem; min-height: 1.6em; }
+
+  .choices {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.25rem;
+    min-height: 9.5rem;
+    margin-top: 1.5rem;
+  }
+  button {
+    font: inherit;
+    border: 0;
+    cursor: pointer;
+    border-radius: 999px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  button:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+  .yes {
+    padding: 0.8em 1.6em;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: #2a0f1d;
+    background: linear-gradient(135deg, var(--gold), var(--rose));
+    box-shadow: 0 10px 30px -8px rgba(234, 163, 171, 0.55);
+    transition: font-size 0.35s ease, transform 0.2s ease;
+  }
+  .yes:hover { transform: translateY(-2px); }
+  .no {
+    padding: 0.6em 1.2em;
+    font-size: 0.95rem;
+    color: var(--muted);
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    transition: transform 0.28s cubic-bezier(.3, 1.4, .5, 1);
+    touch-action: manipulation;
+  }
+
+  .answer {
+    margin-top: 3.5rem;
+    padding: 2rem 1.5rem;
+    border-radius: 1.25rem;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(236, 201, 154, 0.35);
+    animation: rise 0.8s ease both;
+  }
+  .answer h2 {
+    margin: 0 0 0.75rem;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(2.2rem, 10vw, 3.2rem);
+    color: var(--rose);
+    line-height: 1.1;
+  }
+  .answer p { margin: 0; max-width: 60ch; }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+  /* Muhrlangan konvert */
+  .seal-scene {
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.75rem;
+    padding: calc(1rem + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) calc(1rem + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+    transition: opacity 0.6s ease;
+  }
+  .env {
+    position: relative;
+    width: min(21rem, 84vw);
+    aspect-ratio: 4 / 3;
+    perspective: 900px;
+    filter: drop-shadow(0 28px 38px rgba(0, 0, 0, 0.55));
+  }
+  .env > * { position: absolute; }
+  .env-back {
+    inset: 0;
+    border-radius: 6px;
+    background: linear-gradient(160deg, #e9ccd0, #d9b1b7);
+    z-index: 0;
+  }
+  .env-paper {
+    left: 7%;
+    right: 7%;
+    top: 7%;
+    height: 82%;
+    border-radius: 4px;
+    background:
+      repeating-linear-gradient(180deg, transparent 0 1.35rem, rgba(150, 70, 90, 0.16) 1.35rem calc(1.35rem + 1px)),
+      #fff7f5;
+    z-index: 1;
+    transition: transform 0.9s cubic-bezier(.3, .8, .3, 1) 0.9s;
+  }
+  .env-front {
+    inset: 0;
+    border-radius: 6px;
+    background: linear-gradient(160deg, #f8e9e9, #ecd0d3);
+    clip-path: polygon(0 100%, 0 18%, 50% 58%, 100% 18%, 100% 100%);
+    z-index: 2;
+  }
+  .env-flap {
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 58%;
+    background: linear-gradient(180deg, #f1d6d9, #e2bfc3);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: top center;
+    z-index: 3;
+  }
+  .env-to {
+    left: 0;
+    right: 0;
+    bottom: 11%;
+    margin: 0;
+    text-align: center;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(1.25rem, 6vw, 1.65rem);
+    color: #7a3347;
+    z-index: 4;
+  }
+  .env-seal {
+    left: 50%;
+    top: 58%;
+    width: 3.75rem;
+    height: 3.75rem;
+    margin: -1.875rem 0 0 -1.875rem;
+    display: grid;
+    place-items: center;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: #ffd9de;
+    background: radial-gradient(circle at 35% 30%, #dc5671, #9c1f3e 72%);
+    box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.14), 0 5px 12px rgba(0, 0, 0, 0.45);
+    z-index: 5;
+    padding: 0;
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  .seal-hint {
+    margin: 0;
+    max-width: 22rem;
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--muted);
+    transition: opacity 0.3s ease;
+  }
+  .seal-scene.open .seal-hint { opacity: 0; }
+  .seal-scene.open .env-flap { animation: flapOpen 0.8s ease forwards; }
+  .seal-scene.open .env-paper { transform: translateY(-34%); }
+  .seal-scene.open .env-seal { animation: sealGo 0.45s ease forwards; pointer-events: none; }
+  @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.09); } }
+  @keyframes sealGo { to { transform: scale(1.6); opacity: 0; } }
+  @keyframes flapOpen {
+    0% { transform: rotateX(0deg); z-index: 3; }
+    49% { z-index: 3; }
+    50% { z-index: 0; }
+    100% { transform: rotateX(180deg); z-index: 0; }
+  }
+  main.reveal { animation: rise 0.9s ease both; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .env-seal { animation: none; }
+    main.reveal { animation: none; }
+    .seal-scene.open .env-flap, .seal-scene.open .env-seal { animation: none; }
+    .answer { animation: none; }
+    .yes, .no { transition: none; }
+  }
+</style>
+
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<section class="seal-scene" id="sealScene" hidden aria-label="Muhrlangan xat">
+  <div class="env" id="env">
+    <div class="env-back"></div>
+    <div class="env-paper"></div>
+    <div class="env-front"></div>
+    <div class="env-flap"></div>
+    <p class="env-to">Iroda uchun</p>
+    <button type="button" class="env-seal" id="seal" aria-label="Xatni ochish">&#9829;</button>
+  </div>
+  <p class="seal-hint" id="sealHint">Bu xat faqat senga va muhrlangan. Ochish uchun muhrni bos.</p>
+</section>
+
+<main id="mainLetter">
+  <p class="eyebrow">Bugun kechqurun, faqat senga</p>
+  <h1>Kechir,<span>Iroda.</span></h1>
+
+  <section class="letter" aria-label="Kechirim xati">
+    <p>Seni qattiq xafa qildim. Buni bilaman.</p>
+    <p>Aytgan gaplarim va qilgan ishim ko‘nglingga tegdi. Sening og‘riging menga ham og‘ir botyapti, shuning uchun bugun kechqurun shu so‘zlarni yozyapman.</p>
+    <p>O‘zimni oqlamoqchi emasman va bahona qidirmayman. Sen mening uchun qadrlisan, xafa bo‘lishing esa meni tinch qo‘ymayapti.</p>
+    <p>Bundan xulosa chiqaraman. Keyingi safar jahl bilan emas, sabr bilan gaplashaman va avval seni tinglayman.</p>
+    <p>Shoshtirmayman. Xohlagancha vaqt ol. Faqat bitta narsani so‘rayman.</p>
+    <p class="sign">Chin dildan, kechirim so‘rab.</p>
+  </section>
+
+  <section class="ask" id="ask">
+    <h2>Meni kechira olasanmi?</h2>
+    <p class="hint" id="hint" aria-live="polite">Javobing qanday bo‘lsa ham, o‘qiganing uchun rahmat.</p>
+    <div class="choices" id="choices">
+      <button type="button" class="yes" id="yes">Ha, kechirdim</button>
+      <button type="button" class="no" id="no">Hali yo‘q</button>
+    </div>
+  </section>
+
+  <section class="answer" id="answer" hidden aria-live="polite">
+    <h2>Rahmat, Iroda.</h2>
+    <p>Kechirganing uchun rahmat. Va’da beraman, bugungi saboqni unutmayman. Sening ishonching men uchun juda muhim va uni asrashga harakat qilaman.</p>
+  </section>
+</main>
+
+<script>
+(function () {
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var cv = document.getElementById("fx");
+  var ctx = cv.getContext("2d");
+  var W = 0, H = 0, dpr = 1;
+  var petals = [], hearts = [];
+
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth; H = window.innerHeight;
+    cv.width = W * dpr; cv.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  function newPetal(top) {
+    return {
+      x: Math.random() * W,
+      y: top ? -20 : Math.random() * H,
+      r: 5 + Math.random() * 7,
+      vy: 0.25 + Math.random() * 0.55,
+      vx: -0.2 + Math.random() * 0.4,
+      rot: Math.random() * 6.28,
+      vr: -0.02 + Math.random() * 0.04,
+      a: 0.18 + Math.random() * 0.3,
+      sway: Math.random() * 6.28
+    };
+  }
+  function init() {
+    resize();
+    var n = W < 600 ? 22 : 38;
+    petals = [];
+    for (var i = 0; i < n; i++) petals.push(newPetal(false));
+  }
+  function drawPetal(p) {
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rot);
+    ctx.fillStyle = "rgba(234,163,171," + p.a + ")";
+    ctx.beginPath();
+    ctx.ellipse(0, 0, p.r, p.r * 0.55, 0, 0, 6.2832);
+    ctx.fill();
+    ctx.restore();
+  }
+  function frame() {
+    ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < petals.length; i++) {
+      var p = petals[i];
+      if (!reduce) {
+        p.sway += 0.015;
+        p.x += p.vx + Math.sin(p.sway) * 0.35;
+        p.y += p.vy;
+        p.rot += p.vr;
+        if (p.y > H + 20) petals[i] = newPetal(true);
+      }
+      drawPetal(p);
+    }
+    for (var j = hearts.length - 1; j >= 0; j--) {
+      var h = hearts[j];
+      h.x += h.vx; h.y += h.vy; h.vy += 0.035; h.life -= 0.008;
+      if (h.life <= 0) { hearts.splice(j, 1); continue; }
+      ctx.globalAlpha = Math.max(0, Math.min(1, h.life));
+      ctx.fillStyle = h.c;
+      ctx.font = h.s + "px serif";
+      ctx.fillText("♥", h.x, h.y);
+      ctx.globalAlpha = 1;
+    }
+    if (!reduce || hearts.length) requestAnimationFrame(frame);
+  }
+  function burst() {
+    var colors = ["#eaa3ab", "#ecc99a", "#f8ecec", "#d9708b"];
+    var n = reduce ? 0 : 70;
+    for (var i = 0; i < n; i++) {
+      var ang = -Math.PI / 2 + (Math.random() - 0.5) * 2.4;
+      var sp = 3 + Math.random() * 6;
+      hearts.push({
+        x: W / 2, y: H * 0.72,
+        vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp,
+        s: 14 + Math.random() * 22,
+        c: colors[i % colors.length],
+        life: 1 + Math.random() * 0.6
+      });
+    }
+    if (n) requestAnimationFrame(frame);
+  }
+
+  init();
+  window.addEventListener("resize", function () { init(); if (reduce) frame(); });
+  frame();
+
+  /* Muhrlangan xat */
+  var scene = document.getElementById("sealScene");
+  var mainEl = document.getElementById("mainLetter");
+  var seal = document.getElementById("seal");
+  var env = document.getElementById("env");
+  var opened = false;
+  scene.hidden = false;
+  mainEl.hidden = true;
+
+  function finishOpen() {
+    scene.hidden = true;
+    mainEl.hidden = false;
+    mainEl.classList.add("reveal");
+    window.scrollTo(0, 0);
+  }
+  function openLetter() {
+    if (opened) return;
+    opened = true;
+    if (reduce) { finishOpen(); return; }
+    scene.classList.add("open");
+    setTimeout(function () { scene.style.opacity = "0"; }, 1900);
+    setTimeout(finishOpen, 2500);
+  }
+  seal.addEventListener("click", function (e) { e.stopPropagation(); openLetter(); });
+  env.addEventListener("click", openLetter);
+
+  /* Javob tugmalari */
+  var yes = document.getElementById("yes");
+  var no = document.getElementById("no");
+  var hint = document.getElementById("hint");
+  var choices = document.getElementById("choices");
+  var ask = document.getElementById("ask");
+  var answer = document.getElementById("answer");
+  var step = 0;
+  var noLines = [
+    "Hali yo‘q",
+    "Yana o‘ylab ko‘rsam-chi",
+    "Rostdanmi?",
+    "Iltimos, bir imkon ber",
+    "Yuragim ezilyapti",
+    "Oxirgi marta so‘rayman",
+    "Kechir, deb ayt"
+  ];
+  var hintLines = [
+    "Shoshilma, men kutaman.",
+    "Bu tugma sal qochqoq ekan.",
+    "Katta tugma senga qarab turibdi.",
+    "Men chin dildan pushaymonman.",
+    "Yana bir marta, ko‘nglingdan so‘ra.",
+    "Yo‘q tugmasi charchay boshladi."
+  ];
+
+  function dodge(e) {
+    if (e) { e.preventDefault(); }
+    if (step >= noLines.length - 1) {
+      no.hidden = true;
+      hint.textContent = "Yo‘q tugmasi charchab ketdi. Endi faqat bitta javob qoldi.";
+      return;
+    }
+    step++;
+    no.textContent = noLines[step];
+    hint.textContent = hintLines[Math.min(step - 1, hintLines.length - 1)];
+    var box = choices.getBoundingClientRect();
+    var maxX = Math.max(0, box.width - no.offsetWidth - 8);
+    var maxY = Math.max(0, box.height - no.offsetHeight - 8);
+    var left = no.offsetLeft;
+    var top = no.offsetTop;
+    var x = Math.random() * maxX - left;
+    var y = Math.random() * maxY - top;
+    var s = Math.max(0.6, 1 - step * 0.07);
+    no.style.transform = "translate(" + x.toFixed(0) + "px," + y.toFixed(0) + "px) scale(" + s + ")";
+    yes.style.fontSize = Math.min(1.7, 1.05 + step * 0.1) + "rem";
+  }
+  no.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") dodge(e); });
+  no.addEventListener("pointerdown", dodge);
+  no.addEventListener("click", dodge);
+
+  yes.addEventListener("click", function () {
+    ask.hidden = true;
+    answer.hidden = false;
+    burst();
+    try { answer.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" }); } catch (err) {}
+  });
+})();
+</script>
+
+</body></html>
